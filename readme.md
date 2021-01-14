@@ -1,1 +1,1 @@
-Data for study and practice on course [Web-technologies](stepik.org/course/154/)
+Data for study and practice on course [Web-technologies](http://stepik.org/course/154/)
