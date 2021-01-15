@@ -3,8 +3,12 @@ def app(env, start_response):
     data = ''
     if query_string:
         data += str(query_string).replace("&", "\n")
+    try:
+        data_bytes = bytes(data)
+    except:
+        data_bytes = bytes(data, 'utf-8')
     #
     headers = list()
     headers.append(("Content-Type", "text/plain"))
     start_response("200 OK", headers)
-    return [bytes(data)]
+    return [data_bytes]
