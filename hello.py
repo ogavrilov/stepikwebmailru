@@ -1,12 +1,10 @@
 def app(env, start_response):
     query_string = env.get("QUERY_STRING")
-    data = list()
+    data = ''
     if query_string:
-        new_datas = str(query_string).split("&")
-        for new_data in new_datas:
-            data.append(bytes(new_data, 'utf-8'))
+        data += str(query_string).replace("&", "\n")
     #
     headers = list()
     headers.append(("Content-Type", "text/plain"))
     start_response("200 OK", headers)
-    return iter([data])
+    return [bytes(data)]
