@@ -4,7 +4,7 @@ def app(env, start_response):
     if query_string:
         new_datas = str(query_string).split("&")
         for new_data in new_datas:
-            data.append(bytes(new_data))
+            data.append(bytes(new_data, 'utf-8'))
     #
     headers = list()
     headers.append(("Content-Type", "text/plain"))
