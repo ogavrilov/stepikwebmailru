@@ -7,4 +7,4 @@ def app(env, start_response):
     headers = list()
     headers.append(("Content-Type", "text/plain"))
     start_response("200 OK", headers)
-    return iter([data])
+    return [data]
