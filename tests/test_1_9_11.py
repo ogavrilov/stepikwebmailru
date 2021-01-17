@@ -1,37 +1,59 @@
 import requests
-import os
+from testtemplate import testClass
 
-# prepare test case
-test_cases = dict()
-test_cases['http://localhost/?f=1&p=5'] = 'f=1\np=5'
-test_cases['http://localhost?a=7&b=4'] = 'a=7\nb=4'
-test_cases['http://localhost/hello?a=7&b=4'] = 'a=7\nb=4'
-test_cases['http://localhost/hello?a=7&b=4'] = 'a=7\nb=4'
+class test_1_9_11(testClass):
+    def __init__(self):
+        self.result = self.__getResult__()
+        # test 1
+        testCase = self.__getTestCase__()
+        testCase['title'] = 'Test #1: site root with slash'
+        testCase['data']['request'] = 'http://localhost/?f=1&p=5'
+        testCase['data']['answer'] = 'f=1\np=5'
+        self.result['cases'].append(testCase)
+        # test 2
+        testCase = self.__getTestCase__()
+        testCase['title'] = 'Test #2: site root without slash'
+        testCase['data']['request'] = 'http://localhost?a=7&b=4'
+        testCase['data']['answer'] = 'a=7\nb=4'
+        self.result['cases'].append(testCase)
+        # test 3
+        testCase = self.__getTestCase__()
+        testCase['title'] = 'Test #3: site hello with slash'
+        testCase['data']['request'] = 'http://localhost/hello?a=7&b=4'
+        testCase['data']['answer'] = 'a=7\nb=4'
+        self.result['cases'].append(testCase)
+        # test 4
+        testCase = self.__getTestCase__()
+        testCase['title'] = 'Test #4: site hello without slash'
+        testCase['data']['request'] = 'http://localhost/hello?c=11&d=999'
+        testCase['data']['answer'] = 'c=11\nd=999'
+        self.result['cases'].append(testCase)
 
-# start http server
-os.system('sh ../init.sh')
-print('started http server')
+    def test(self):
+        for testCase in self.result['cases']:
+            testCase['out'].append(' - test - request:' + testCase['data']['request'])
+            try:
+                response = requests.get(testCase['data']['request'])
+                result = True
+                if response.status_code == 200:
+                    if testCase['data']['answer']:
+                        if testCase['data']['answer'] != response.text:
+                            result = False
+                else:
+                    result = False
+                if result:
+                    testCase['out'].append(' - test - Success')
+                    testCase['success'] = True
+                    self.result['success'] += 1
+                else:
+                    testCase['out'].append(' - test - Fail')
+                    testCase['error'].append(' - test - status code:' + str(response.status_code) + '| expected:200')
+                    error_line = ' - test - text:' + str(response.text)
+                    error_line += '| expected:' + str(testCase['data']['answer'])
+                    testCase['error'].append(error_line)
+            except Exception as ErrorObject:
+                testCase['error'].append(' - test - error:' + str(ErrorObject))
+        return self.result
 
-# check http request
-testN = 0
-testSuccess = 0
-for test_request, test_answer in test_cases.items():
-    testN += 1
-    print('Test #' + str(testN))
-    print(' - request:' + test_request)
-    response = requests.get(test_request)
-    result = True
-    if response.status_code == 200:
-        if test_answer:
-            if test_answer != response.text:
-                result = False
-    else:
-        result = False
-    if result:
-        print(' - Success')
-        testSuccess += 1
-    else:
-        print(' - Fail')
-        print(' - status code:' + str(response.status_code) + '| expected:200')
-        print(' - text:' + response.text + '| expected:' + test_answer)
-print('Result: ' + str(testSuccess) + ' / ' + str(testN))
+def getTestObject():
+    return test_1_9_11()
