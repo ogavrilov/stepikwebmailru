@@ -9,7 +9,7 @@ source myvenv/bin/activate
 pip3 install --upgrade pip
 pip3 install --upgrade django==2.1
 pip3 install --upgrade gunicorn
-pip3 install --upgrade mysqlclient
+pip3 install --upgrade mysqlclient==1.3.14
 # prepare and start nginx
 sudo mkdir /home/box/web/log
 sudo ln -sf /home/box/web/etc/nginx.conf /etc/nginx/nginx.conf
