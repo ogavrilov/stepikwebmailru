@@ -7,7 +7,7 @@ virtualenv -p python3.5 myvenv
 source myvenv/bin/activate
 # prepare libs
 pip3 install --upgrade pip
-pip3 install --upgrade django==2.1
+pip3 install --upgrade django
 pip3 install --upgrade gunicorn
 pip3 install --upgrade mysqlclient==1.3.14
 # prepare and start nginx
