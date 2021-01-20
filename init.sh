@@ -3,9 +3,11 @@ sudo apt-get update
 sudo apt-get install -y python3.5
 sudo apt-get install -y python3.5-dev
 #
-sudo apt-get install -y debconf-utils
-export DEBIAN_FRONTEND=noninteractive
-sudo -E apt-get -q -y install mysql-server
+sudo wget http://repo.mysql.com/mysql-apt-config_0.2.1-1debian7_all.deb
+sudo dpkg -i mysql-apt-config_0.2.1-1debian7_all.deb
+sudo deb http://repo.mysql.com/apt/debian/ wheezy mysql-5.6
+sudo apt-get update
+sudo apt-get install mysql-server-5.6
 # prepare virtual environment
 virtualenv -p python3.5 myvenv
 source myvenv/bin/activate
