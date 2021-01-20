@@ -9,6 +9,7 @@ source myvenv/bin/activate
 pip3 install --upgrade pip
 pip3 install --upgrade django==2.1
 pip3 install --upgrade gunicorn
+pip3 install --upgrade mysqlclient
 # prepare and start nginx
 sudo mkdir /home/box/web/log
 sudo ln -sf /home/box/web/etc/nginx.conf /etc/nginx/nginx.conf
@@ -21,7 +22,7 @@ sudo /etc/init.d/mysql start
 #mysql -uroot -e 'drop database project_ask'
 
 mysql -uroot -e 'create database project_ask'
-mysql -uroot -e 'create user project_ask_user@localhost identified with mysql_native_password by "Project_Ask1!"'
+mysql -uroot -e 'create user project_ask_user@localhost identified by "Project_Ask1!"'
 mysql -uroot -e 'grant all privileges on project_ask.* to project_ask_user@localhost'
 
 python ask/manage.py makemigrations
