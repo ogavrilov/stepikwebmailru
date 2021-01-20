@@ -1,8 +1,9 @@
 import sys
-import os.path
+import os
 import glob
 import time
 import subprocess
+import traceback
 
 # prepare variables
 testBlocks = dict()
@@ -23,30 +24,42 @@ if len(sys.argv) > 1:
                 testBlocks[argv] = 'not imported'
 
 # check testBlocks files exists
-for blockName in testBlocks.keys():
+blockIndex = 0
+testBlocksNames = [dictKey for dictKey in testBlocks.keys()]
+for blockIndex in range(0, len(testBlocksNames)):
+    blockName = testBlocksNames[blockIndex]
     # check file in cur catalog with blockName
-    if not os.path.exists(blockName + '.py'):
+    if not os.path.exists('tests/' + blockName + '.py'):
         testBlocks.pop(blockName)
-        print('[ERROR] File ' + blockName + '.py not exists. Skipped.')
+        print('[ERROR] File tests/' + blockName + '.py not exists. Skipped.')
 
 # fill testBlock from catalog if cleared
 if len(testBlocks) == 0:
-    print('[INFO] Load all test blocks.')
-    for testFile in glob.glob('test_*.py'):
+    print('[INFO] Loading all test blocks from ' + os.getcwd() + '/tests/...')
+    for testFile in glob.glob('tests/test_*.py'):
         testBlocks[testFile.replace('.py', '')] = 'not imported'
 
 # prepare testBlocks
 testBlocksCount = len(testBlocks)
-for blockName in testBlocks.keys():
+blockIndex = 0
+testBlocksNames = [dictKey for dictKey in testBlocks.keys()]
+for blockIndex in range(0, len(testBlocksNames)):
     try:
-        testBlocks[blockName] = __import__(blockName).getTestObject()
+        blockName = testBlocksNames[blockIndex]
+        moduleName = '' + blockName.replace('tests/', '')
+        testBlocks[blockName] = __import__(moduleName).getTestObject()
         if debugFlag:
             print('[INFO] Loaded test block: ' + blockName)
-    except Exception as ErrorObject:
+    except:
+        print('[ERROR] Test block "' + blockName + '" load error: ' + str(traceback.format_exc()) + '|' + moduleName)
         testBlocks.pop(blockName)
-        if debugFlag:
-            print('[ERROR] Test block "' + blockName + '" load error: ' + str(ErrorObject))
+
 print('[INFO] Loaded ' + str(len(testBlocks)) + ' / ' + str(testBlocksCount) + ' test  blocks.')
+
+# check test exists
+if len(testBlocks) == 0:
+    print('[INFO] No test block for testing.')
+    sys.exit(1)
 
 # prepare test data
 for blockName, blockValue in testBlocks.items():
@@ -54,17 +67,17 @@ for blockName, blockValue in testBlocks.items():
         blockValue.load()
         if debugFlag:
             print('[INFO] Test block "' + blockName + '" prepared.')
-    except Exception as ErrorObject:
-        print('[ERROR] Test block "' + blockName + '" prepare error: ' + str(ErrorObject))
+    except:
+        print('[ERROR] Test block "' + blockName + '" prepare error: ' + str(traceback.format_exc()))
 
 # start server
 try:
     print('[INFO] Server starting...')
-    os.system('sh ../init.sh')
+    os.system('bash init.sh')
     time.sleep(3)
     print('-------------------------')
-except Exception as ErrorObject:
-    print('[ERROR] Server start error: ' + str(ErrorObject))
+except:
+    print('[ERROR] Server start error: ' + str(traceback.format_exc()))
     sys.exit(1)
 
 # execute tests
@@ -90,8 +103,8 @@ for blockName, blockValue in testBlocks.items():
                     print('-------------------------')
                 elif debugFlag:
                     print('-------------------------')
-    except Exception as ErrorObject:
-        print('[ERROR] Test block "' + blockName + '" execute error: ' + str(ErrorObject))
+    except:
+        print('[ERROR] Test block "' + blockName + '" execute error: ' + str(traceback.format_exc()))
 print('[INFO] Tests block results: ' + str(testSuccessResult) + ' / ' + str(len(testBlocks))) 
 
 # debug pause
@@ -107,5 +120,5 @@ for blockName, blockValue in testBlocks.items():
         blockValue.unload()
         if debugFlag:
             print('[INFO] Test block "' + blockName + '" test data cleaned.')
-    except Exception as ErrorObject:
-        print('[ERROR] Test block "' + blockName + '" test data clean error: ' + str(ErrorObject))
+    except:
+        print('[ERROR] Test block "' + blockName + '" test data clean error: ' + str(traceback.format_exc()))

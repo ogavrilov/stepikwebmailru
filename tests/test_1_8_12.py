@@ -9,7 +9,7 @@ class test_1_8_12(testClass):
         testCase = self.__getTestCase__()
         testCase['title'] = 'Test #1: uploads catalog, file exists with file extansion'
         testCase['data']['request'] = 'http://localhost/uploads/1.txt'
-        testCase['data']['filePath'] = '../uploads/1.txt'
+        testCase['data']['filePath'] = 'uploads/1.txt'
         testCase['data']['fileContent'] = '1.txt content'
         testCase['data']['statusCode'] = 200
         self.result['cases'].append(testCase)
@@ -25,7 +25,7 @@ class test_1_8_12(testClass):
         testCase = self.__getTestCase__()
         testCase['title'] = 'Test #3: upload catalog, file exists without file extansion'
         testCase['data']['request'] = 'http://localhost/uploads/3'
-        testCase['data']['filePath'] = '../uploads/3'
+        testCase['data']['filePath'] = 'uploads/3'
         testCase['data']['fileContent'] = '3 content'
         testCase['data']['statusCode'] = 200
         self.result['cases'].append(testCase)
@@ -41,21 +41,13 @@ class test_1_8_12(testClass):
         testCase = self.__getTestCase__()
         testCase['title'] = 'Test #5: any catalog (not upload), file exists with file extansion'
         testCase['data']['request'] = 'http://localhost/2.txt'
-        testCase['data']['filePath'] = '../public/2.txt'
+        testCase['data']['filePath'] = 'public/2.txt'
         testCase['data']['fileContent'] = '2.txt content'
         testCase['data']['statusCode'] = 200
         self.result['cases'].append(testCase)
         # test 6
         testCase = self.__getTestCase__()
-        testCase['title'] = 'Test #6: any catalog (not upload), without file extansion'
-        testCase['data']['request'] = 'http://localhost/2'
-        testCase['data']['filePath'] = ''
-        testCase['data']['fileContent'] = ''
-        testCase['data']['statusCode'] = 404
-        self.result['cases'].append(testCase)
-        # test 7
-        testCase = self.__getTestCase__()
-        testCase['title'] = 'Test #7: any catalog (not upload), file not exists with file extansion'
+        testCase['title'] = 'Test #6: any catalog (not upload), file not exists with file extansion'
         testCase['data']['request'] = 'http://localhost/3.txt'
         testCase['data']['filePath'] = ''
         testCase['data']['fileContent'] = ''
