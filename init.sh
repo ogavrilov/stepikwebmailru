@@ -3,6 +3,7 @@ sudo apt-get update
 sudo apt-get install -y python3.5
 sudo apt-get install -y python3.5-dev
 #
+sudo apt-get install -y debconf-utils
 ROOT_PASSWORD="your_root_password"
 
 echo "mysql-apt-config mysql-apt-config/unsupported-platform select abort" | /usr/bin/debconf-set-selections
