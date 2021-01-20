@@ -4,25 +4,17 @@ sudo apt-get install -y python3.5
 sudo apt-get install -y python3.5-dev
 #
 sudo apt-get install -y debconf-utils
-sudo ROOT_PASSWORD="your_root_password"
-
-echo "mysql-apt-config mysql-apt-config/unsupported-platform select abort" | /usr/bin/debconf-set-selections
-echo "mysql-apt-config mysql-apt-config/repo-codename   select trusty" | /usr/bin/debconf-set-selections
-echo "mysql-apt-config mysql-apt-config/select-tools select" | /usr/bin/debconf-set-selections
-echo "mysql-apt-config mysql-apt-config/repo-distro select ubuntu" | /usr/bin/debconf-set-selections
-echo "mysql-apt-config mysql-apt-config/select-server select mysql-5.7" | /usr/bin/debconf-set-selections
-echo "mysql-apt-config mysql-apt-config/select-product select Apply" | /usr/bin/debconf-set-selections
-
-echo "mysql-community-server mysql-community-server/root-pass password $ROOT_PASSWORD" | /usr/bin/debconf-set-selections
-echo "mysql-community-server mysql-community-server/re-root-pass password $ROOT_PASSWORD" | /usr/bin/debconf-set-selections
-echo "mysql-community-server mysql-community-server/remove-data-dir boolean false" | /usr/bin/debconf-set-selections
-echo "mysql-community-server mysql-community-server/data-dir note" | /usr/bin/debconf-set-selections
+#ROOT_PASSWORD="your_root_password"
 
 sudo export DEBIAN_FRONTEND=noninteractive
-sudo wget http://dev.mysql.com/get/mysql-apt-config_0.6.0-1_all.deb
-sudo dpkg --install mysql-apt-config_0.6.0-1_all.deb
-sudo apt-get update
-sudo apt-get --yes --force-yes install mysql-server-5.7
+debconf-set-selections <<< 'mysql-server-5.7 mysql-server/root_password password password'
+debconf-set-selections <<< 'mysql-server-5.7 mysql-server/root_password_again password password'
+
+#sudo wget http://dev.mysql.com/get/mysql-apt-config_0.6.0-1_all.deb
+#sudo dpkg --install mysql-apt-config_0.6.0-1_all.deb
+#sudo apt-get update
+#sudo apt-get --yes --force-yes install mysql-server-5.7
+sudo apt-get install --assume-yes mysql-server-5.7 mysqlclient
 # prepare virtual environment
 virtualenv -p python3.5 myvenv
 source myvenv/bin/activate
