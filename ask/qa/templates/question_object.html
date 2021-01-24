@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ block.super }} - {{ page_title }}
+{% endblock %}
+{% block content %}
+    <div class="question_box">
+        <br />{{ question.title }}
+        <br />{{ question.text }}
+        <br />rating: {{ question.rating }}
+        <br />
+        {% for answer in answers %}
+            <div class="answer_box">
+            <br />{{ answer.text }}
+            <br />Author: {{ answer.user }}
+            <br />
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

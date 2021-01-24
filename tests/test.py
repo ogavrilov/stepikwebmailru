@@ -2,7 +2,6 @@ import sys
 import os
 import glob
 import time
-import subprocess
 import traceback
 
 # prepare variables

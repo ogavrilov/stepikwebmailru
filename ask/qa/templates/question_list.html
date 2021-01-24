@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ block.super }} - {{ page_title }}
+{% endblock %}
+{% block content %}
+    {% for question in question_list %}
+    <div class="question_box">
+        <br />{{ question }}
+        <br /><a href="{{ question.get_url }}">Перейти к вопросу</a>
+        <br />rating: {{ question.rating }}
+    </div>
+    {% endfor %}
+    <nav>
+        <ul class="pagination">
+            {% for page in paginator.page_range %}
+            {% if page == curr_page.number %}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+                <a href="{{ paginator.baseurl }}?page={{ page }}">{{ page }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}
