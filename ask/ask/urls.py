@@ -22,7 +22,7 @@ urlpatterns = [
     re_path(r'^question/(?P<question_id>\d+)/', views.question_object, name='question'),
     re_path(r'^login', views.test, name='login'),
     re_path(r'^signup', views.test, name='signup'),
-    re_path(r'^ask', views.test, name='ask'),
+    re_path(r'^ask', views.askform, name='ask'),
     re_path(r'^popular', views.question_list_popular, name='popular'),
     re_path(r'^new', views.question_list_latest, name='new')
 ]
