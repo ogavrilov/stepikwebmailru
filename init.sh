@@ -14,6 +14,7 @@ source myvenv/bin/activate
 # prepare libs
 #pip3 install --upgrade pip
 pip3 install --upgrade django
+sudo pip3 install --upgrade django
 #pip3 install --upgrade gunicorn
 pip3 install --upgrade mysqlclient
 # prepare and start nginx
