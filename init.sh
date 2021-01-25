@@ -13,9 +13,9 @@ virtualenv -p python3.5 myvenv
 source myvenv/bin/activate
 # prepare libs
 #pip3 install --upgrade pip
-pip3 install --upgrade django
+pip3 install --upgrade django==2.1
 #pip3 install --upgrade gunicorn
-#pip3 install --upgrade mysqlclient
+pip3 install --upgrade mysqlclient
 # prepare and start nginx
 sudo mkdir /home/box/web/log
 sudo ln -sf /home/box/web/etc/nginx.conf /etc/nginx/nginx.conf
