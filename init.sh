@@ -12,17 +12,17 @@ sudo apt-get install -y mysql-server-5.6
 virtualenv -p python3.5 myvenv
 source myvenv/bin/activate
 # prepare libs
-pip3 install --upgrade pip
-pip3 install --upgrade django
-pip3 install --upgrade gunicorn
-pip3 install --upgrade mysqlclient
+#pip3 install --upgrade pip
+#pip3 install --upgrade django
+#pip3 install --upgrade gunicorn
+#pip3 install --upgrade mysqlclient
 # prepare and start nginx
 sudo mkdir /home/box/web/log
 sudo ln -sf /home/box/web/etc/nginx.conf /etc/nginx/nginx.conf
 sudo /etc/init.d/nginx restart
 # prepare mysql server, database and user
 sudo /etc/init.d/mysql start
-sudo service mysql restart
+#sudo service mysql restart
 #mysql -uroot -e 'revoke all privileges, grant option from project_ask_user@localhost'
 #mysql -uroot -e 'drop user project_ask_user@localhost'
 #mysql -uroot -e 'drop database project_ask'
