@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Q&A{% endblock %}</title>
-    <style>
-        .question_block { background-color: silver; }
-        .answer_block { background-color: silver; }
-    </style>
 </head>
 <body>
+{% block auth %}
+    {% if auth_user_authenticated %}
+        {{ auth_username }}
+        <form class="form-horizontal" method="get" action="{{ auth_logout_url }}">
+            <input type="hidden" name="redirectPage" value="{{ auth_current_url }}">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Log out</button>
+            </div>
+        </form>
+    {% else %}
+        <form class="form-horizontal" method="get" action="{{ auth_login_url }}">
+            <input type="hidden" name="redirectPage" value="{{ auth_current_url }}">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+        <form class="form-horizontal" method="get" action="{{ auth_signup_url }}">
+            <input type="hidden" name="redirectPage" value="{{ auth_current_url }}">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Signup</button>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
 {% block content %}{% endblock %}
 </body>
 </html>

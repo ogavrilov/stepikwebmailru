@@ -16,12 +16,14 @@ Including another URLconf
 from django.urls import path
 from django.urls import re_path
 from qa import views
+from django.contrib.auth import views as login_views
 
 urlpatterns = [
     path('', views.question_list_latest, name='root'),
     re_path(r'^question/(?P<question_id>\d+)/', views.question_object, name='question'),
-    re_path(r'^login', views.test, name='login'),
-    re_path(r'^signup', views.test, name='signup'),
+    re_path(r'^login', views.login, name='login'),
+    re_path(r'^logout', views.logout, name='logout'),
+    re_path(r'^signup', views.signup, name='signup'),
     re_path(r'^ask', views.askform, name='ask'),
     re_path(r'^popular', views.question_list_popular, name='popular'),
     re_path(r'^new', views.question_list_latest, name='new')

@@ -2,6 +2,7 @@
 {% block title %}
     {{ block.super }} - {{ page_title }}
 {% endblock %}
+{% block auth %}{{ block.super }}{% endblock %}
 {% block content %}
     {% for question in question_list %}
     <div class="question_box">
@@ -23,4 +24,11 @@
             {% endfor %}
         </ul>
     </nav>
+    {% if auth_user_authenticated %}
+        <form class="form-horizontal" method="get" action="{{ ask_url }}">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add question</button>
+            </div>
+        </form>
+    {% endif %}
 {% endblock %}

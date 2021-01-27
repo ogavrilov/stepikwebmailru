@@ -2,6 +2,7 @@
 {% block title %}
     {{ block.super }} - {{ page_title }}
 {% endblock %}
+{% block auth %}{{ block.super }}{% endblock %}
 {% block content %}
     <div class="question_box">
         <br />{{ question.title }}
@@ -18,23 +19,25 @@
         {% for error in form.non_field_errors %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
-        <form class="form-horizontal" method="post" action="{{ question_url }}">
-            {% csrf_token %}
-            <fieldset>
-                {% for field in form %}
-                    {% if field.name == 'question' %}
-                        <div class="controls">hide{{ field }}</div>
-                    {% else %}
-                    <div class="control-group {% if field.errors %}has_error{% endif %}">
-                        <label class="control-label">{{ field.label }}</label>
-                        <div class="controls">{{ field }}</div>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            </fieldset>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-        </form>
+        {% if auth_user_authenticated %}
+            <form class="form-horizontal" method="post" action="{{ question_url }}">
+                {% csrf_token %}
+                <fieldset>
+                    {% for field in form %}
+                        {% if field.name == 'question' %}
+                            <div class="controls">hide{{ field }}</div>
+                        {% else %}
+                        <div class="control-group {% if field.errors %}has_error{% endif %}">
+                            <label class="control-label">{{ field.label }}</label>
+                            <div class="controls">{{ field }}</div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </fieldset>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        {% endif %}
     </div>
 {% endblock %}

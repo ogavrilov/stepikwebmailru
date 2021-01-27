@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ block.super }} - {{ page_title }}
+{% endblock %}
+{% block auth %}{{ block.super }}{% endblock %}
+{% block content %}
+    <p>You are logged out!</p>
+{% endblock %}
